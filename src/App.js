@@ -21,8 +21,19 @@ import './App.css';
 
 function App() {
 
+  const onTellJoke=()=>{
+    fetch('https://icanhazdadjoke.com/',{
+      method: 'GET',
+        headers: {
+          Accept: 'application/json'
+        }
+    })
+    .then(response=> response.json())
+    .then(data=>console.log(data));
+  }
+
   return (
-  <button onClick={()=> console.log(hi)}>tell me a jocke</button>
+  <button onClick={onTellJoke}>tell me a joke</button>
   );
 }
 
