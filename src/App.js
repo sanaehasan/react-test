@@ -19,9 +19,17 @@ import './App.css';
 //   );
 // }
 
-function App() {
+class App extends React.Component {
 
-  const onTellJoke=()=>{
+  constructor(){
+    super();
+    this.state ={joke:null};
+   
+    this.onTellJoke=this.onTellJoke.bind(this);
+  }
+
+   
+ onTellJoke(){
     fetch('https://icanhazdadjoke.com/',{
       method: 'GET',
         headers: {
@@ -29,12 +37,20 @@ function App() {
         }
     })
     .then(response=> response.json())
-    .then(data=>console.log(data));
+    .then(data =>{
+       this.setState({joke:data.joke});
+      console.log('joke  :',this.joke);
+    });
+      //data=>console.log(data));
   }
 
+render(){
   return (
-  <button onClick={onTellJoke}>tell me a joke</button>
+    <div>
+  <button onClick={this.onTellJoke}>tell me a joke</button>
+  <p>{this.state.joke}</p>
+  </div>
   );
-}
+};}
 
 export default App;
