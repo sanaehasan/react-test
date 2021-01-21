@@ -23,13 +23,20 @@ class App extends React.Component {
 
   constructor(){
     super();
-    this.state ={joke:null};
+    this.state ={joke:null,
+    isFetching : false
+    };
    
-    this.onTellJoke=this.onTellJoke.bind(this);
+   this.onTellJoke=this.onTellJoke.bind(this);
   }
 
+componentDidMount(){
+  this.fetchJoke();
+  }
    
- onTellJoke(){
+  fetchJoke(){
+
+    this.setState({isFetching:true});
     fetch('https://icanhazdadjoke.com/',{
       method: 'GET',
         headers: {
@@ -38,17 +45,23 @@ class App extends React.Component {
     })
     .then(response=> response.json())
     .then(data =>{
-       this.setState({joke:data.joke});
+
+       this.setState({joke:data.joke,
+        isFetching :false
+      });
       console.log('joke  :',this.joke);
     });
+  }
+ onTellJoke(){
+   this.fetchJoke();
       //data=>console.log(data));
   }
 
 render(){
   return (
     <div>
-  <button onClick={this.onTellJoke}>tell me a joke</button>
-  <p>{this.state.joke}</p>
+  <button onClick={this.onTellJoke} disabled={this.state.isFetching}>tell me a joke</button>
+  <p>{this.state.isFetching?'is loading...':this.state.joke}</p>
   </div>
   );
 };}
